@@ -16,10 +16,18 @@ const routes = [
     children: [
       {
         path: 'udemy',
-        name: 'console',
+        name: 'udemy',
         component: () => import('@/views/Udemy.vue'),
         meta: {
           title: 'udemy',
+        },
+      },
+      {
+        path: 'youtubelist',
+        name: 'youtubelist',
+        component: () => import('@/views/YoutubeList.vue'),
+        meta: {
+          title: 'yotuubelist',
         },
       },
     ],
