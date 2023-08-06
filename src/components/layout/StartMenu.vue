@@ -1,7 +1,7 @@
 <template>
   <div class="flex w-28 flex-col border-r border-gray-500 pt-20 text-center">
     <h1 class="mb-6 text-lg">歡迎</h1>
-    <ul class="mx-2">
+    <ul class="mx-2 text-sm">
       <li
         v-for="item in menu"
         :key="item.name"
@@ -43,6 +43,10 @@ const menu = [
   {
     name: 'youtubelist',
     path: '/console/youtubelist',
+  },
+  {
+    name: 'youtubevideo',
+    path: '/console/youtubevideo',
   },
 ];
 </script>

@@ -30,6 +30,14 @@ const routes = [
           title: 'yotuubelist',
         },
       },
+      {
+        path: 'youtubevideo',
+        name: 'youtubevideo',
+        component: () => import('@/views/YoutubeVideo.vue'),
+        meta: {
+          title: 'youtubevideo',
+        },
+      },
     ],
   },
   {
