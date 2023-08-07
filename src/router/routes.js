@@ -38,6 +38,14 @@ const routes = [
           title: 'youtubevideo',
         },
       },
+      {
+        path: 'bilibiliList',
+        name: 'bilibiliList',
+        component: () => import('@/views/BiliBiliList.vue'),
+        meta: {
+          title: 'BiliBiliList',
+        },
+      },
     ],
   },
   {

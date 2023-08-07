@@ -89,13 +89,12 @@ async function submitHandler() {
   isLoading.value = true;
   const res = await youtubeVideoToNotionHandler(form);
 
-  console.log(res);
   if (res) {
     result.value = 1;
   } else {
     result.value = 2;
   }
   isLoading.value = false;
-  form.courseUrl = '';
+  form.youtubeUrl = '';
 }
 </script>

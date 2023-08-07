@@ -1,5 +1,7 @@
 <template>
-  <div class="flex w-28 flex-col border-r border-gray-500 pt-20 text-center">
+  <div
+    class="flex min-h-[100vh] w-28 flex-col overflow-y-auto border-r border-gray-500 pt-20 text-center"
+  >
     <h1 class="mb-6 text-lg">歡迎</h1>
     <ul class="mx-2 text-sm">
       <li
@@ -47,6 +49,10 @@ const menu = [
   {
     name: 'youtubevideo',
     path: '/console/youtubevideo',
+  },
+  {
+    name: 'bilibiliList',
+    path: '/console/bilibiliList',
   },
 ];
 </script>

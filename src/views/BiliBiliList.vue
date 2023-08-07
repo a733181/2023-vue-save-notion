@@ -4,17 +4,18 @@
       <Input
         label="notion API 頁面 ID"
         classLabel="mr-3"
-        class="mb-5 ml-7"
+        class="mb-5 ml-2"
         v-model="form.mainPageId"
         :disabled="isLoading"
       ></Input>
       <Input
-        label="YouTube 播放清單網址"
+        label="BiliBili 播放清單網址"
         classLabel="mr-3"
-        class="mb-5"
-        v-model="form.youtubeUrl"
+        v-model="form.bilibiliUrl"
         :disabled="isLoading"
+        class="mb-2"
       ></Input>
+      <p class="mb-5 text-center">BiliBili 播放清單網址(需有 /?p=)</p>
       <div class="mb-10 flex items-center justify-center gap-x-3">
         <Button
           text="清除"
@@ -48,23 +49,23 @@ import Input from '@/components/ui/Input.vue';
 import Button from '@/components/ui/Button.vue';
 
 import useSwalStore from '@/stores/plugin/swal';
-import useYoutubeStore from '@/stores/add/youtube';
+import useBiliBiliStore from '@/stores/add/bilibili';
 
 const swalStore = useSwalStore();
-const youtubeStore = useYoutubeStore();
-const { youtubeListToNotionHandler } = youtubeStore;
+const biliBiliStore = useBiliBiliStore();
+const { bilibiliListSaveToNotion } = biliBiliStore;
 
 const isLoading = ref(false);
 const result = ref(0);
 
 const form = reactive({
   mainPageId: '',
-  youtubeUrl: '',
+  bilibiliUrl: '',
 });
 
 function clearHandler() {
   form.mainPageId = '';
-  form.youtubeUrl = '';
+  form.bilibiliUrl = '';
 }
 
 function validatorForm() {
@@ -72,12 +73,15 @@ function validatorForm() {
     swalStore.toastSimple('error', '請輸入 Notion API 頁面 ID');
     return false;
   }
-  if (form.youtubeUrl === '') {
-    swalStore.toastSimple('error', '請輸入 YouTube 播放清單網址');
+  if (form.bilibiliUrl === '') {
+    swalStore.toastSimple('error', '請輸入 BiliBili 播放清單網址');
     return false;
   }
-  if (!form.youtubeUrl.includes('https://www.youtube.com/playlist?list=')) {
-    swalStore.toastSimple('error', '請輸入正確的 YouTube 播放清單網址');
+  if (
+    !form.bilibiliUrl.includes('https://www.bilibili.com/video/') &&
+    !form.bilibiliUrl.includes('?p=')
+  ) {
+    swalStore.toastSimple('error', '請輸入正確的 BiliBili 播放清單網址');
     return false;
   }
   return true;
@@ -87,7 +91,7 @@ async function submitHandler() {
   if (!validatorForm()) return;
   result.value = 0;
   isLoading.value = true;
-  const res = await youtubeListToNotionHandler(form);
+  const res = await bilibiliListSaveToNotion(form);
 
   if (res) {
     result.value = 1;
@@ -95,6 +99,6 @@ async function submitHandler() {
     result.value = 2;
   }
   isLoading.value = false;
-  form.youtubeUrl = '';
+  form.bilibiliUrl = '';
 }
 </script>

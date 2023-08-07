@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia';
 import api from '@/axios/index';
 
-const useUdemyStore = defineStore('useUdemyStore', () => {
-  async function udemySaveToNotionHandler(form) {
+const useBiliBiliStore = defineStore('useBiliBiliStore', () => {
+  async function bilibiliListSaveToNotion(form) {
     try {
-      const { data } = await api.post('/udemy', form);
+      const { data } = await api.post('/bilibiliList', form);
 
       if (data.success) {
         return true;
@@ -18,8 +18,8 @@ const useUdemyStore = defineStore('useUdemyStore', () => {
 
   return {
     // async
-    udemySaveToNotionHandler,
+    bilibiliListSaveToNotion,
   };
 });
 
-export default useUdemyStore;
+export default useBiliBiliStore;
