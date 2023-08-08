@@ -76,6 +76,10 @@ function validatorForm() {
     swalStore.toastSimple('error', '請輸入 Udemy 課程網址');
     return false;
   }
+  if (!form.courseUrl.includes('https://www.udemy.com/course/')) {
+    swalStore.toastSimple('error', '請輸入正確的 Udemy 課程網址');
+    return false;
+  }
   return true;
 }
 
