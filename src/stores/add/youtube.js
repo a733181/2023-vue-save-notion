@@ -1,10 +1,11 @@
 import { defineStore } from 'pinia';
 import api from '@/axios/index';
+import { youtubeUrl } from '@/axios/url';
 
 const useYoutubeStore = defineStore('useYoutubeStore', () => {
   async function youtubeListToNotionHandler(form) {
     try {
-      const { data } = await api.post('/youtubelist', form);
+      const { data } = await api.post(youtubeUrl.list, form);
 
       if (data.success) {
         return true;
@@ -18,7 +19,7 @@ const useYoutubeStore = defineStore('useYoutubeStore', () => {
 
   async function youtubeVideoToNotionHandler(form) {
     try {
-      const { data } = await api.post('/youtubevideo', form);
+      const { data } = await api.post(youtubeUrl.video, form);
       if (data.success) {
         return true;
       }

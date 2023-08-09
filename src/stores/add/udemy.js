@@ -1,10 +1,11 @@
 import { defineStore } from 'pinia';
 import api from '@/axios/index';
+import { udemyUrl } from '@/axios/url';
 
 const useUdemyStore = defineStore('useUdemyStore', () => {
   async function udemySaveToNotionHandler(form) {
     try {
-      const { data } = await api.post('/udemy', form);
+      const { data } = await api.post(udemyUrl, form);
 
       if (data.success) {
         return true;
