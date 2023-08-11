@@ -23,19 +23,11 @@ const routes = [
         },
       },
       {
-        path: 'youtubelist',
-        name: 'youtubelist',
-        component: () => import('@/views/YoutubeList.vue'),
+        path: 'youtube',
+        name: 'youtube',
+        component: () => import('@/views/youtube.vue'),
         meta: {
-          title: 'yotuubelist',
-        },
-      },
-      {
-        path: 'youtubevideo',
-        name: 'youtubevideo',
-        component: () => import('@/views/YoutubeVideo.vue'),
-        meta: {
-          title: 'youtubevideo',
+          title: 'youtube',
         },
       },
       {

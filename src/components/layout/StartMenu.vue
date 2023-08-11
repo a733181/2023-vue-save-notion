@@ -43,12 +43,8 @@ const menu = [
     path: '/console/udemy',
   },
   {
-    name: 'youtubelist',
-    path: '/console/youtubelist',
-  },
-  {
-    name: 'youtubevideo',
-    path: '/console/youtubevideo',
+    name: 'youtube',
+    path: '/console/youtube',
   },
   {
     name: 'bilibiliList',

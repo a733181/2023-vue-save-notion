@@ -1,3 +1,4 @@
+@@ -0,0 +1,138 @@
 <template>
   <div class="flex min-h-[100vh] items-center justify-center">
     <form @submit.prevent="submitHandler">
@@ -6,14 +7,24 @@
         classLabel="mr-3"
         class="mb-5 ml-7"
         v-model="form.mainPageId"
+        classInputDisabled="bg-gray-500"
         :disabled="isLoading"
       ></Input>
       <Input
         label="YouTube 播放清單網址"
         classLabel="mr-3"
         class="mb-5"
-        v-model="form.youtubeUrl"
-        :disabled="isLoading"
+        v-model="url.list"
+        classInputDisabled="bg-gray-500"
+        :disabled="isLoading || url.video !== ''"
+      ></Input>
+      <Input
+        label="YouTube 播放網址"
+        classLabel="mr-3"
+        class="mb-5 ml-8"
+        v-model="url.video"
+        classInputDisabled="bg-gray-500"
+        :disabled="isLoading || url.list !== ''"
       ></Input>
       <div class="mb-10 flex items-center justify-center gap-x-3">
         <Button
@@ -52,19 +63,25 @@ import useYoutubeStore from '@/stores/add/youtube';
 
 const swalStore = useSwalStore();
 const youtubeStore = useYoutubeStore();
-const { youtubeListToNotionHandler } = youtubeStore;
+const { youtubeListToNotionHandler, youtubeVideoToNotionHandler } =
+  youtubeStore;
 
 const isLoading = ref(false);
 const result = ref(0);
 
 const form = reactive({
   mainPageId: '',
-  youtubeUrl: '',
+});
+
+const url = reactive({
+  list: '',
+  video: '',
 });
 
 function clearHandler() {
   form.mainPageId = '';
-  form.youtubeUrl = '';
+  url.list = '';
+  url.video = '';
 }
 
 function validatorForm() {
@@ -72,12 +89,22 @@ function validatorForm() {
     swalStore.toastSimple('error', '請輸入 Notion API 頁面 ID');
     return false;
   }
-  if (form.youtubeUrl === '') {
-    swalStore.toastSimple('error', '請輸入 YouTube 播放清單網址');
+  if (url.list === '' && url.video === '') {
+    swalStore.toastSimple('error', '請輸入 YouTube 網址');
     return false;
   }
-  if (!form.youtubeUrl.includes('https://www.youtube.com/playlist?list=')) {
+  if (
+    url.list !== '' &&
+    !url.list.includes('https://www.youtube.com/playlist?list=')
+  ) {
     swalStore.toastSimple('error', '請輸入正確的 YouTube 播放清單網址');
+    return false;
+  }
+  if (
+    url.video !== '' &&
+    !url.video.includes('https://www.youtube.com/watch?')
+  ) {
+    swalStore.toastSimple('error', '請輸入正確的 YouTube 播放網址');
     return false;
   }
   return true;
@@ -87,7 +114,18 @@ async function submitHandler() {
   if (!validatorForm()) return;
   result.value = 0;
   isLoading.value = true;
-  const res = await youtubeListToNotionHandler(form);
+  let res;
+  if (url.list !== '') {
+    res = await youtubeListToNotionHandler({
+      mainPageId: form.mainPageId,
+      youtubeUrl: url.list,
+    });
+  } else {
+    res = await youtubeVideoToNotionHandler({
+      mainPageId: form.mainPageId,
+      youtubeUrl: url.video,
+    });
+  }
 
   if (res) {
     result.value = 1;
@@ -95,6 +133,7 @@ async function submitHandler() {
     result.value = 2;
   }
   isLoading.value = false;
-  form.youtubeUrl = '';
+  url.list = '';
+  url.video = '';
 }
 </script>
