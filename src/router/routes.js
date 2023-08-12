@@ -25,7 +25,7 @@ const routes = [
       {
         path: 'youtube',
         name: 'youtube',
-        component: () => import('@/views/youtube.vue'),
+        component: () => import('@/views/Youtube.vue'),
         meta: {
           title: 'youtube',
         },
