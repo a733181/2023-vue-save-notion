@@ -31,11 +31,11 @@ const routes = [
         },
       },
       {
-        path: 'bilibiliList',
-        name: 'bilibiliList',
-        component: () => import('@/views/BiliBiliList.vue'),
+        path: 'bilibili',
+        name: 'bilibili',
+        component: () => import('@/views/Bilibili.vue'),
         meta: {
-          title: 'BiliBiliList',
+          title: 'bilibili',
         },
       },
     ],

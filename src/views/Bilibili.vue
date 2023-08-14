@@ -6,16 +6,28 @@
         classLabel="mr-3"
         class="mb-5 ml-2"
         v-model="form.mainPageId"
+        classInputDisabled="bg-gray-500"
         :disabled="isLoading"
       ></Input>
       <Input
         label="BiliBili 播放清單網址"
         classLabel="mr-3"
-        v-model="form.bilibiliUrl"
-        :disabled="isLoading"
+        v-model="url.list"
+        classInputDisabled="bg-gray-500"
         class="mb-2"
+        :disabled="isLoading || url.video !== ''"
       ></Input>
-      <p class="mb-5 text-center">BiliBili 播放清單網址(需有 /?p=)</p>
+      <p class="mb-2 text-center text-gray-400">
+        BiliBili 播放清單網址(需有 ?p= )
+      </p>
+      <Input
+        label="BiliBili 播放網址"
+        classLabel="mr-3 ml-8"
+        v-model="url.video"
+        classInputDisabled="bg-gray-500"
+        class="mb-5"
+        :disabled="isLoading || url.list !== ''"
+      ></Input>
       <div class="mb-10 flex items-center justify-center gap-x-3">
         <Button
           text="清除"
@@ -53,19 +65,24 @@ import useBiliBiliStore from '@/stores/add/bilibili';
 
 const swalStore = useSwalStore();
 const biliBiliStore = useBiliBiliStore();
-const { bilibiliListSaveToNotion } = biliBiliStore;
+const { bilibiliListSaveToNotion, bilibiliVideoSaveToNotion } = biliBiliStore;
 
 const isLoading = ref(false);
 const result = ref(0);
 
 const form = reactive({
   mainPageId: '',
-  bilibiliUrl: '',
+});
+
+const url = reactive({
+  list: '',
+  video: '',
 });
 
 function clearHandler() {
   form.mainPageId = '';
-  form.bilibiliUrl = '';
+  url.list = '';
+  url.video = '';
 }
 
 function validatorForm() {
@@ -73,15 +90,25 @@ function validatorForm() {
     swalStore.toastSimple('error', '請輸入 Notion API 頁面 ID');
     return false;
   }
-  if (form.bilibiliUrl === '') {
-    swalStore.toastSimple('error', '請輸入 BiliBili 播放清單網址');
+  if (url.list === '' && url.video === '') {
+    swalStore.toastSimple('error', '請輸入 BiliBili 網址');
     return false;
   }
+
   if (
-    !form.bilibiliUrl.includes('https://www.bilibili.com/video/') &&
-    !form.bilibiliUrl.includes('?p=')
+    url.list !== '' &&
+    (!url.list.includes('https://www.bilibili.com/video/') ||
+      !url.list.includes('?p='))
   ) {
     swalStore.toastSimple('error', '請輸入正確的 BiliBili 播放清單網址');
+    return false;
+  }
+
+  if (
+    url.video !== '' &&
+    !url.video.includes('https://www.bilibili.com/video/')
+  ) {
+    swalStore.toastSimple('error', '請輸入正確的 BiliBili 播放網址');
     return false;
   }
   return true;
@@ -91,7 +118,18 @@ async function submitHandler() {
   if (!validatorForm()) return;
   result.value = 0;
   isLoading.value = true;
-  const res = await bilibiliListSaveToNotion(form);
+  let res;
+  if (url.list !== '') {
+    res = await bilibiliListSaveToNotion({
+      mainPageId: form.mainPageId,
+      bilibiliUrl: url.list,
+    });
+  } else {
+    res = await bilibiliVideoSaveToNotion({
+      mainPageId: form.mainPageId,
+      bilibiliUrl: url.video,
+    });
+  }
 
   if (res) {
     result.value = 1;
@@ -99,6 +137,7 @@ async function submitHandler() {
     result.value = 2;
   }
   isLoading.value = false;
-  form.bilibiliUrl = '';
+  url.list = '';
+  url.video = '';
 }
 </script>

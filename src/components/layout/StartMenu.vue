@@ -47,8 +47,8 @@ const menu = [
     path: '/console/youtube',
   },
   {
-    name: 'bilibiliList',
-    path: '/console/bilibiliList',
+    name: 'bilibili',
+    path: '/console/bilibili',
   },
 ];
 </script>
