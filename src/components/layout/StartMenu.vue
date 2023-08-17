@@ -50,5 +50,9 @@ const menu = [
     name: 'bilibili',
     path: '/console/bilibili',
   },
+  {
+    name: 'pressplay',
+    path: '/console/pressplay',
+  },
 ];
 </script>

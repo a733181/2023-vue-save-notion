@@ -38,6 +38,14 @@ const routes = [
           title: 'bilibili',
         },
       },
+      {
+        path: 'pressplay',
+        name: 'pressplay',
+        component: () => import('@/views/Pressplay.vue'),
+        meta: {
+          title: 'pressplay',
+        },
+      },
     ],
   },
   {
