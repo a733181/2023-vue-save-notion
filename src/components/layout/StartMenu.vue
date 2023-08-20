@@ -54,5 +54,9 @@ const menu = [
     name: 'pressplay',
     path: '/console/pressplay',
   },
+  {
+    name: 'hahow',
+    path: '/console/hahow',
+  },
 ];
 </script>

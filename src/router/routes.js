@@ -46,6 +46,14 @@ const routes = [
           title: 'pressplay',
         },
       },
+      {
+        path: 'hahow',
+        name: 'hahow',
+        component: () => import('@/views/Hahow.vue'),
+        meta: {
+          title: 'hahow',
+        },
+      },
     ],
   },
   {
